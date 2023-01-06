@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace kyPhotoViewer
 {
     internal class clsPhoto
     {
-        string actualPhotoPath;
-        string actualSourceFolder;
+        public string ActualPhotoPath  // property
+        { get; set; }
+        public string ActualSourceFolder  // property
+        { get; set; }
+        
+
+        public void setParameters(string photoPath, string sourceFolder)
+        {
+            this.ActualPhotoPath = photoPath;
+            this.ActualSourceFolder = sourceFolder;
+        }
 
         public BitmapImage preparePhoto(string filePath)
         {

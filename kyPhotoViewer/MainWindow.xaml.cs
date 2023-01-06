@@ -29,11 +29,11 @@ namespace kyPhotoViewer
         string actualPhotoPath = "";
         string actualDestinationFolder = "";
         string actualSourceFolder = "";
+        clsPhoto photo = new clsPhoto();
+
         public MainWindow()
         {
             InitializeComponent();
-            clsPhoto photo = new clsPhoto();
-
         }
 
         private void btnOpenImage_Click(object sender, RoutedEventArgs e)
@@ -52,13 +52,10 @@ namespace kyPhotoViewer
                     actualPhotoPath = selectedFileName;
                     lblFileName.Content = selectedFileName;
                     actualSourceFolder = System.IO.Path.GetDirectoryName(selectedFileName);
-                    BitmapImage bitmap = new BitmapImage();
 
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(selectedFileName);
-                    bitmap.EndInit();
+                    photo.setParameters(actualPhotoPath, actualSourceFolder);
 
-                    imMain.Source = bitmap;
+                    imMain.Source = photo.preparePhoto(selectedFileName);
                 }
             }
             catch(Exception ex)
@@ -95,15 +92,26 @@ namespace kyPhotoViewer
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            string[] files = Directory.GetFiles(actualSourceFolder);
-            int actualIndex = Array.IndexOf(files, actualSourceFolder);
+             
+            string[] files = Directory.GetFiles(photo.ActualSourceFolder);
+            int actualIndex = Array.IndexOf(files, photo.ActualPhotoPath);
+            string nextPath = files[actualIndex + 1];
 
+            imMain.Source = photo.preparePhoto(nextPath);
 
+            photo.ActualPhotoPath = nextPath;
+            
         }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
+            string[] files = Directory.GetFiles(photo.ActualSourceFolder);
+            int actualIndex = Array.IndexOf(files, photo.ActualPhotoPath);
+            string nextPath = files[actualIndex - 1];
 
+            imMain.Source = photo.preparePhoto(nextPath);
+
+            photo.ActualPhotoPath = nextPath;
         }
 
     }
