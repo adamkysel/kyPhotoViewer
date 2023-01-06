@@ -32,31 +32,40 @@ namespace kyPhotoViewer
         public MainWindow()
         {
             InitializeComponent();
+            clsPhoto photo = new clsPhoto();
 
         }
 
         private void btnOpenImage_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.InitialDirectory = "c:\\";
-            dlg.Filter = "Image files (*.jpg)|*.jpg|All Files (*.*)|*.*";
-            dlg.RestoreDirectory = true;
-
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                string selectedFileName = dlg.FileName;
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.InitialDirectory = "c:\\";
+                dlg.Filter = "Image files (*.jpg)|*.jpg|All Files (*.*)|*.*";
+                dlg.RestoreDirectory = true;
 
-                actualPhotoPath = selectedFileName;
-                lblFileName.Content = selectedFileName;
-                actualSourceFolder = System.IO.Path.GetDirectoryName(selectedFileName);
-                BitmapImage bitmap = new BitmapImage();
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string selectedFileName = dlg.FileName;
 
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(selectedFileName);
-                bitmap.EndInit();
+                    actualPhotoPath = selectedFileName;
+                    lblFileName.Content = selectedFileName;
+                    actualSourceFolder = System.IO.Path.GetDirectoryName(selectedFileName);
+                    BitmapImage bitmap = new BitmapImage();
 
-                imMain.Source = bitmap;
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(selectedFileName);
+                    bitmap.EndInit();
+
+                    imMain.Source = bitmap;
+                }
             }
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void btnSelectfolder_Click(object sender, RoutedEventArgs e)
@@ -86,6 +95,9 @@ namespace kyPhotoViewer
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
+            string[] files = Directory.GetFiles(actualSourceFolder);
+            int actualIndex = Array.IndexOf(files, actualSourceFolder);
+
 
         }
 
@@ -93,5 +105,6 @@ namespace kyPhotoViewer
         {
 
         }
+
     }
 }
