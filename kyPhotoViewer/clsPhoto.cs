@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,6 +17,12 @@ namespace kyPhotoViewer
         { get; set; }
         public string ActualSourceFolder  // property
         { get; set; }
+
+        public enum enumPhotoPath
+        {
+            eNext,
+            ePrevious
+        }
         
 
         public void setParameters(string photoPath, string sourceFolder)
@@ -38,7 +46,25 @@ namespace kyPhotoViewer
                 System.Windows.MessageBox.Show(ex.Message);
             }
 
-            return bitmap;
+            return bitmap;         
+        }
+
+        public string getNext_Previous_PhotoPath(enumPhotoPath ePhotoPath)
+        {            
+            string[] files = Directory.GetFiles(this.ActualSourceFolder);
+            int actualIndex = Array.IndexOf(files, this.ActualPhotoPath);
+            string nextPath = "";
+
+            if (ePhotoPath == enumPhotoPath.ePrevious)
+            {
+                nextPath = files[actualIndex - 1];
+            }
+            if (ePhotoPath == enumPhotoPath.eNext)
+            {
+                nextPath = files[actualIndex + 1];
+            }
+            this.ActualPhotoPath = nextPath;
+            return nextPath;
         }
     }
 }

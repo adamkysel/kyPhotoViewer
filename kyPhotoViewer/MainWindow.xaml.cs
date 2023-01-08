@@ -91,27 +91,25 @@ namespace kyPhotoViewer
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
-        {
-             
-            string[] files = Directory.GetFiles(photo.ActualSourceFolder);
-            int actualIndex = Array.IndexOf(files, photo.ActualPhotoPath);
-            string nextPath = files[actualIndex + 1];
-
-            imMain.Source = photo.preparePhoto(nextPath);
-
-            photo.ActualPhotoPath = nextPath;
-            
+        {                
+            imMain.Source = photo.preparePhoto(photo.getNext_Previous_PhotoPath(clsPhoto.enumPhotoPath.eNext));            
         }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
-            string[] files = Directory.GetFiles(photo.ActualSourceFolder);
-            int actualIndex = Array.IndexOf(files, photo.ActualPhotoPath);
-            string nextPath = files[actualIndex - 1];
+            imMain.Source = photo.preparePhoto(photo.getNext_Previous_PhotoPath(clsPhoto.enumPhotoPath.ePrevious));
+        }
 
-            imMain.Source = photo.preparePhoto(nextPath);
-
-            photo.ActualPhotoPath = nextPath;
+        private void Window_OnKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Left) 
+            {
+                imMain.Source = photo.preparePhoto(photo.getNext_Previous_PhotoPath(clsPhoto.enumPhotoPath.ePrevious));
+            }
+            if (e.Key == Key.Right)
+            {
+                imMain.Source = photo.preparePhoto(photo.getNext_Previous_PhotoPath(clsPhoto.enumPhotoPath.eNext));
+            }
         }
 
     }
