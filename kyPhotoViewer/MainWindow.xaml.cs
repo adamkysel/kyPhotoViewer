@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -100,9 +100,9 @@ namespace kyPhotoViewer
             imMain.Source = photo.preparePhoto(photo.getNext_Previous_PhotoPath(clsPhoto.enumPhotoPath.ePrevious));
         }
 
-        private void Window_OnKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Left) 
+            if (e.Key == Key.Left)
             {
                 imMain.Source = photo.preparePhoto(photo.getNext_Previous_PhotoPath(clsPhoto.enumPhotoPath.ePrevious));
             }
@@ -110,7 +110,11 @@ namespace kyPhotoViewer
             {
                 imMain.Source = photo.preparePhoto(photo.getNext_Previous_PhotoPath(clsPhoto.enumPhotoPath.eNext));
             }
+            if (e.Key == Key.Tab)
+            {
+            }
         }
+
 
     }
 }
