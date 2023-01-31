@@ -5,21 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kyPhotoViewer"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="kyPhotoViewer"
         WindowState="Maximized" Height="998" Width="1496"
         KeyDown="Window_KeyDown">
     <Grid Margin="0,10,33,0">
         <Image x:Name="imMain" HorizontalAlignment="Left" Height="894" Margin="60,23,0,0" VerticalAlignment="Top" Width="1113"/>
-        <Button x:Name="btnOpenImage" Content="Vyber Fotku" HorizontalAlignment="Left" Margin="1297,75,0,0" VerticalAlignment="Top" Height="36" Width="146" Click="btnOpenImage_Click"/>
-        <Button x:Name="btnDelete" Content="Vymazat" HorizontalAlignment="Left" Margin="1297,293,0,0" VerticalAlignment="Top" Height="37" Width="146" Click="btnDelete_Click"/>
-        <Button x:Name="btnCopyToFolder" Content="Ulozit do precinka" HorizontalAlignment="Left" Margin="1297,241,0,0" VerticalAlignment="Top" Height="35" Width="146" Click="btnCopyToFolder_Click"/>
-        <Button x:Name="btnNext" Content="Dalsia fotka" HorizontalAlignment="Left" Height="36" Margin="1297,352,0,0" VerticalAlignment="Top" Width="146" Click="btnNext_Click"/>
-        <Button x:Name="btnPrevious" Content="Predosla" HorizontalAlignment="Left" Height="38" Margin="1297,406,0,0" VerticalAlignment="Top" Width="146" RenderTransformOrigin="2.562,1.587" Click="btnPrevious_Click"/>
-        <Label x:Name="lblFileName" Content="Nie je vybrata fotka" HorizontalAlignment="Left" Margin="1215,44,0,0" VerticalAlignment="Top" Width="233"/>
-        <Label x:Name="lblActualPhoto" Content="Aktualna fotka:" HorizontalAlignment="Left" Margin="1215,10,0,0" VerticalAlignment="Top" Width="233"/>
-        <Label x:Name="lblDestinationFolder" Content="Priecinok na ukladanie fotiek:" HorizontalAlignment="Left" Margin="1215,129,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.47,-0.596"/>
-        <Label x:Name="lblSelectedDestfolder" Content="Nie je zvoleny adresar" HorizontalAlignment="Left" Margin="1215,166,0,0" VerticalAlignment="Top" Width="233"/>
-        <Button x:Name="btnSelectfolder" Content="Vybrat preicinok" HorizontalAlignment="Left" Margin="1297,192,0,0" VerticalAlignment="Top" Height="35" Width="146" Click="btnSelectfolder_Click"/>
+        <Button x:Name="btnOpenImage" Content="Vyber Fotku" HorizontalAlignment="Left" Margin="1302,75,0,0" VerticalAlignment="Top" Height="36" Width="146" Click="btnOpenImage_Click" Foreground="White" Background="#FF66F6D1" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnDelete" Content="Vymazať fotku" HorizontalAlignment="Left" Margin="1297,277,0,0" VerticalAlignment="Top" Height="37" Width="146" Click="btnDelete_Click" Background="#FFF97B7B" Foreground="White" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnCopyToFolder" Content="Uložit do priečinka" HorizontalAlignment="Left" Margin="1297,237,0,0" VerticalAlignment="Top" Height="35" Width="146" Click="btnCopyToFolder_Click" Background="LightGreen" Foreground="White" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnNext" Content="Ďalšia fotka" HorizontalAlignment="Left" Height="36" Margin="1297,360,0,0" VerticalAlignment="Top" Width="146" Click="btnNext_Click" Foreground="White" Background="#FF66F6D1" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnPrevious" Content="Predošlá fotka" HorizontalAlignment="Left" Height="38" Margin="1297,401,0,0" VerticalAlignment="Top" Width="146" RenderTransformOrigin="2.562,1.587" Click="btnPrevious_Click" Foreground="White" Background="#FF66F6D1" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Label x:Name="lblFileName" Content="Nie je vybratá fotka" HorizontalAlignment="Left" Margin="1215,44,0,0" VerticalAlignment="Top" Width="233" Background="#FFF97B7B" Foreground="White" FontWeight="Bold"/>
+        <Label x:Name="lblActualPhoto" Content="Aktuálna fotka:" HorizontalAlignment="Left" Margin="1215,10,0,0" VerticalAlignment="Top" Width="233" FontWeight="Bold"/>
+        <Label x:Name="lblDestinationFolder" Content="Priečinok na ukladanie fotiek:" HorizontalAlignment="Left" Margin="1215,129,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.47,-0.596" FontWeight="Bold"/>
+        <Label x:Name="lblSelectedDestfolder" Content="Nie je zvolený adresár" HorizontalAlignment="Left" Margin="1215,166,0,0" VerticalAlignment="Top" Width="233" Background="#FFF97B7B" Foreground="White" FontWeight="Bold"/>
+        <Button x:Name="btnSelectfolder" Content="Vybrať priečinok" HorizontalAlignment="Left" Margin="1297,197,0,0" VerticalAlignment="Top" Height="35" Width="146" Click="btnSelectfolder_Click" Foreground="White" Background="#FF66F6D1" FontWeight="Bold" RenderTransformOrigin="0.56,-0.393">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnRotate" Content="Otočiť fotku" HorizontalAlignment="Left" Height="36" Margin="1297,319,0,0" VerticalAlignment="Top" Width="146" Click="btnRotate_Click" Foreground="White" Background="#FF66F6D1" FontWeight="Bold">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
 
     </Grid>
 </Window>

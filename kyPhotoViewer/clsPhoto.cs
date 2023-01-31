@@ -49,22 +49,67 @@ namespace kyPhotoViewer
             return bitmap;         
         }
 
-        public string getNext_Previous_PhotoPath(enumPhotoPath ePhotoPath)
-        {            
-            string[] files = Directory.GetFiles(this.ActualSourceFolder);
-            int actualIndex = Array.IndexOf(files, this.ActualPhotoPath);
-            string nextPath = "";
+        public bool savePhoto(string filePath)
+        {
+            bool savePhoto = false;
+            System.IO.File.Copy(this.ActualPhotoPath, this.ActualSourceFolder + "/" + System.IO.Path.GetFileName(this.ActualPhotoPath));
 
-            if (ePhotoPath == enumPhotoPath.ePrevious)
+            return savePhoto;
+
+        }
+
+        public string getNext_Previous_PhotoPath(enumPhotoPath ePhotoPath)
+        {
+            string localPosition = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name + "---" + System.Reflection.MethodBase.GetCurrentMethod().Name;
+            string nextPath = "";
+            string[] files;
+            int actualIndex;
+
+            try
             {
-                nextPath = files[actualIndex - 1];
-            }
-            if (ePhotoPath == enumPhotoPath.eNext)
+                if (Directory.Exists(this.ActualSourceFolder) && Directory.Exists(this.ActualPhotoPath))
+                {
+                    files = Directory.GetFiles(this.ActualSourceFolder);
+                    actualIndex = Array.IndexOf(files, this.ActualPhotoPath);
+                    if (ePhotoPath == enumPhotoPath.ePrevious)
+                    {
+                        if (actualIndex == 0)
+                        {
+                            nextPath = files[files.Length - 1];
+                        }
+                        else
+                        {
+                            nextPath = files[actualIndex - 1];
+                        }
+                    }
+                    if (ePhotoPath == enumPhotoPath.eNext)
+                    {
+                        if (actualIndex == files.Length - 1)
+                        {
+                            nextPath = files[0];
+                        }
+                        else
+                        {
+                            nextPath = files[actualIndex + 1];
+                        }
+
+                    }
+                    this.ActualPhotoPath = nextPath;
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Zdrojový priečinok alebo aktuálna fotka neexistuje.");
+                }
+
+            }    
+            catch (Exception ex)
             {
-                nextPath = files[actualIndex + 1];
+                
+                System.Windows.MessageBox.Show(ex.Message);
             }
-            this.ActualPhotoPath = nextPath;
+
             return nextPath;
+
         }
     }
 }

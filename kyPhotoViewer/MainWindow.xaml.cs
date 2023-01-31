@@ -51,6 +51,8 @@ namespace kyPhotoViewer
 
                     actualPhotoPath = selectedFileName;
                     lblFileName.Content = selectedFileName;
+                    lblFileName.Background = new SolidColorBrush(Colors.LightGreen);
+
                     actualSourceFolder = System.IO.Path.GetDirectoryName(selectedFileName);
 
                     photo.setParameters(actualPhotoPath, actualSourceFolder);
@@ -76,7 +78,10 @@ namespace kyPhotoViewer
                 string selectedFolder = folderDlg.SelectedPath;
                 actualDestinationFolder = selectedFolder;
                 lblSelectedDestfolder.Content = selectedFolder;
+                lblSelectedDestfolder.Background = new SolidColorBrush(Colors.LightGreen);
+
                 Environment.SpecialFolder root = folderDlg.RootFolder;
+
             }
         }
 
@@ -100,6 +105,11 @@ namespace kyPhotoViewer
             imMain.Source = photo.preparePhoto(photo.getNext_Previous_PhotoPath(clsPhoto.enumPhotoPath.ePrevious));
         }
 
+        private void btnRotate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Left)
@@ -114,7 +124,6 @@ namespace kyPhotoViewer
             {
             }
         }
-
 
     }
 }
