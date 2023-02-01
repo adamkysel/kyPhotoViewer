@@ -33,6 +33,8 @@ namespace kyPhotoViewer
 
         public BitmapImage preparePhoto(string filePath)
         {
+            string localPosition = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name + "---" + System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             BitmapImage bitmap = new BitmapImage();
 
             try
@@ -43,18 +45,75 @@ namespace kyPhotoViewer
             }
             catch(Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message);
+                clsLogger.writeLog(ex.Message, localPosition, clsLogger.enumLogType.eError);
             }
 
             return bitmap;         
         }
 
-        public bool savePhoto(string filePath)
+        public bool savePhoto(string destinationFolder)
         {
+            string localPosition = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name + "---" + System.Reflection.MethodBase.GetCurrentMethod().Name;
             bool savePhoto = false;
-            System.IO.File.Copy(this.ActualPhotoPath, this.ActualSourceFolder + "/" + System.IO.Path.GetFileName(this.ActualPhotoPath));
+            string savedPhotoPath = destinationFolder + "/" + System.IO.Path.GetFileName(this.ActualPhotoPath);
+            try
+            {
+                if(System.IO.File.Exists(this.ActualPhotoPath))
+                {
+                    if (System.IO.Directory.Exists(destinationFolder))
+                    {
+                        System.IO.File.Copy(this.ActualPhotoPath, savedPhotoPath);
+                        if (System.IO.File.Exists(savedPhotoPath))
+                        {
+                            savePhoto = true;
+                        }
+                    }
+                    else
+                    {
+                        System.Windows.MessageBox.Show("Priecinok, kde chces fotku ulozit neexistuje.");
+                    }
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Fotka, ktoru chces ulozit neexistuje.");
+                }
+            }
+            catch(Exception ex)
+            {
+                clsLogger.writeLog(ex.Message, localPosition, clsLogger.enumLogType.eError);
+            }
 
             return savePhoto;
+
+        }
+
+        public bool deletePhoto()
+        {
+            string localPosition = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name + "---" + System.Reflection.MethodBase.GetCurrentMethod().Name;
+            bool deletePhoto = false;
+            try
+            {
+                if (System.IO.File.Exists(this.ActualPhotoPath))
+                {
+                    System.IO.File.Delete(this.ActualPhotoPath);
+                   
+                    if (System.IO.File.Exists(this.ActualPhotoPath))
+                    {
+                        deletePhoto = true;
+                    }
+                   
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Fotka, ktoru chces vymazat neexistuje.");
+                }
+            }
+            catch (Exception ex)
+            {
+                clsLogger.writeLog(ex.Message, localPosition, clsLogger.enumLogType.eError);
+            }
+
+            return deletePhoto;
 
         }
 
@@ -67,7 +126,7 @@ namespace kyPhotoViewer
 
             try
             {
-                if (Directory.Exists(this.ActualSourceFolder) && Directory.Exists(this.ActualPhotoPath))
+                if (Directory.Exists(this.ActualSourceFolder) && System.IO.File.Exists(this.ActualPhotoPath))
                 {
                     files = Directory.GetFiles(this.ActualSourceFolder);
                     actualIndex = Array.IndexOf(files, this.ActualPhotoPath);
@@ -98,14 +157,13 @@ namespace kyPhotoViewer
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("Zdrojový priečinok alebo aktuálna fotka neexistuje.");
+                    System.Windows.MessageBox.Show("Zdrojový priečinok alebo aktuálna fotka neexistuje. Vyber fotku, ktora sa ma zobrazit.");
                 }
 
             }    
             catch (Exception ex)
-            {
-                
-                System.Windows.MessageBox.Show(ex.Message);
+            {                
+                clsLogger.writeLog(ex.Message, localPosition, clsLogger.enumLogType.eError);
             }
 
             return nextPath;

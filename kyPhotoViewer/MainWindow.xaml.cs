@@ -38,6 +38,8 @@ namespace kyPhotoViewer
 
         private void btnOpenImage_Click(object sender, RoutedEventArgs e)
         {
+            string localPosition = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name + "---" + System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 OpenFileDialog dlg = new OpenFileDialog();
@@ -62,37 +64,47 @@ namespace kyPhotoViewer
             }
             catch(Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message);
+                clsLogger.writeLog(ex.Message, localPosition, clsLogger.enumLogType.eError);
             }
-            
+
         }
 
         private void btnSelectfolder_Click(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
-            folderDlg.ShowNewFolderButton = true;
-            // Show the FolderBrowserDialog.  
-            DialogResult result = folderDlg.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            string localPosition = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name + "---" + System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try 
             {
-                string selectedFolder = folderDlg.SelectedPath;
-                actualDestinationFolder = selectedFolder;
-                lblSelectedDestfolder.Content = selectedFolder;
-                lblSelectedDestfolder.Background = new SolidColorBrush(Colors.LightGreen);
+                FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+                folderDlg.ShowNewFolderButton = true;
+                // Show the FolderBrowserDialog.  
+                DialogResult result = folderDlg.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    string selectedFolder = folderDlg.SelectedPath;
+                    actualDestinationFolder = selectedFolder;
+                    lblSelectedDestfolder.Content = selectedFolder;
+                    lblSelectedDestfolder.Background = new SolidColorBrush(Colors.LightGreen);
 
-                Environment.SpecialFolder root = folderDlg.RootFolder;
-
+                    Environment.SpecialFolder root = folderDlg.RootFolder;
+                }
             }
+            catch (Exception ex)
+            {
+                clsLogger.writeLog(ex.Message, localPosition, clsLogger.enumLogType.eError);
+            }
+
         }
 
         private void btnCopyToFolder_Click(object sender, RoutedEventArgs e)
         {
-            System.IO.File.Copy(actualPhotoPath, actualDestinationFolder + "/" + System.IO.Path.GetFileName(actualPhotoPath));
+            photo.savePhoto(actualDestinationFolder);
+            //System.IO.File.Copy(actualPhotoPath, actualDestinationFolder + "/" + System.IO.Path.GetFileName(actualPhotoPath));
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            System.IO.File.Delete(actualPhotoPath);
+            photo.deletePhoto();
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
