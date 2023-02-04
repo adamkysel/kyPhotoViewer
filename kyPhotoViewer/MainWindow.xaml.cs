@@ -119,7 +119,7 @@ namespace kyPhotoViewer
 
         private void btnRotate_Click(object sender, RoutedEventArgs e)
         {
-
+            imMain.Source = photo.rotatePhoto();
         }
 
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

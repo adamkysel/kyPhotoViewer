@@ -24,7 +24,14 @@ namespace kyPhotoViewer
                 string time = DateTime.Now.ToString("h:mm:ss.fff");
                 string actualDirectoryName = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string logFileName = dateTime.ToString("dd/MM/yyyy") + ".txt";
-                string logPath = actualDirectoryName + @"\LOG\" + logFileName;
+                string logDirectoryPath = actualDirectoryName + @"\LOG\";
+                string logPath = logDirectoryPath + logFileName;
+
+                if (System.IO.Directory.Exists(logDirectoryPath) == false)
+                {
+                    System.IO.Directory.CreateDirectory(logDirectoryPath);
+                }
+
                 if (System.IO.File.Exists(logPath) == false)
                 {
                     System.IO.File.Create(logPath).Close();

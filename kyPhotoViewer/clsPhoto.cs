@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using System.Xml.Linq;
 
 namespace kyPhotoViewer
@@ -40,6 +44,7 @@ namespace kyPhotoViewer
             try
             {
                 bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
                 bitmap.UriSource = new Uri(filePath);
                 bitmap.EndInit();
             }
@@ -91,8 +96,10 @@ namespace kyPhotoViewer
         {
             string localPosition = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name + "---" + System.Reflection.MethodBase.GetCurrentMethod().Name;
             bool deletePhoto = false;
+
             try
             {
+                string nextPhotoPath = getNext_Previous_PhotoPath(enumPhotoPath.eNext);
                 if (System.IO.File.Exists(this.ActualPhotoPath))
                 {
                     System.IO.File.Delete(this.ActualPhotoPath);
@@ -100,6 +107,7 @@ namespace kyPhotoViewer
                     if (System.IO.File.Exists(this.ActualPhotoPath))
                     {
                         deletePhoto = true;
+                        this.ActualPhotoPath = nextPhotoPath;
                     }
                    
                 }
@@ -115,6 +123,57 @@ namespace kyPhotoViewer
 
             return deletePhoto;
 
+        }
+
+        public TransformedBitmap rotatePhoto()
+        {
+            string localPosition = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name + "---" + System.Reflection.MethodBase.GetCurrentMethod().Name;
+            TransformedBitmap transformBmp = new TransformedBitmap();
+
+            try
+            {
+                //Image img = Image.
+                ////create an object that we can use to examine an image file
+                //using (Image img = Image.FromFile(this.ActualPhotoPath))
+                //{
+                //    //rotate the picture by 90 degrees and re-save the picture as a Jpeg
+                //    img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                //    img.Save(output, System.Drawing.Imaging.ImageFormat.Jpeg);
+                //}
+                
+                // Create a BitmapImage
+
+                BitmapImage bmpImage = new BitmapImage();
+
+                bmpImage.BeginInit();
+                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                bmpImage.UriSource = new Uri(this.ActualPhotoPath, UriKind.RelativeOrAbsolute);
+                bmpImage.EndInit();
+
+
+
+                // Properties must be set between BeginInit and EndInit
+
+                transformBmp.BeginInit();
+                transformBmp.Source = bmpImage;         
+                RotateTransform transform = new RotateTransform(90);
+                transformBmp.Transform = transform;
+                transformBmp.EndInit();
+
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(transformBmp));
+               
+                using (var fileStream = new System.IO.FileStream(this.ActualPhotoPath, System.IO.FileMode.Create))
+                {
+                    encoder.Save(fileStream);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                clsLogger.writeLog(ex.Message, localPosition, clsLogger.enumLogType.eError);
+            }
+            return transformBmp;
         }
 
         public string getNext_Previous_PhotoPath(enumPhotoPath ePhotoPath)
